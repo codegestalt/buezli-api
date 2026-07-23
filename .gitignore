@@ -1,0 +1,5 @@
+/.bundle/
+/.ruby-lsp/
+/coverage/
+/Gemfile.lock
+/pkg/

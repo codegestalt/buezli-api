@@ -1,0 +1,563 @@
+{
+  "version": "2026-07-14",
+  "models": {
+    "Client": {
+      "resource_name": "clients",
+      "attributes": {
+        "id": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "name": "string",
+        "address": "string",
+        "currency": "string",
+        "locale": "string",
+        "archived_at": "datetime"
+      },
+      "associations": {}
+    },
+    "Contact": {
+      "resource_name": "contacts",
+      "attributes": {
+        "id": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "client_id": "integer",
+        "first_name": "string",
+        "last_name": "string",
+        "title": "string",
+        "email": "string",
+        "phone_office": "string",
+        "phone_mobile": "string",
+        "archived_at": "datetime"
+      },
+      "associations": {
+        "client": {
+          "type": "belongs_to",
+          "class_name": "Client",
+          "inline": false
+        }
+      }
+    },
+    "Estimate": {
+      "resource_name": "estimates",
+      "attributes": {
+        "id": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "client_id": "integer",
+        "number": "string",
+        "status": "string",
+        "issue_date": "date",
+        "subject": "string",
+        "notes": "string",
+        "currency": "string",
+        "locale": "string",
+        "recipient_name": "string",
+        "recipient_address": "string",
+        "sender_name": "string",
+        "sender_address": "string",
+        "sender_email": "string",
+        "sender_phone": "string",
+        "sender_vat_number": "string",
+        "discount_rate": "decimal",
+        "tax_rate": "decimal",
+        "subtotal": "money",
+        "discount": "money",
+        "tax": "money",
+        "tax_breakdown": "array",
+        "total": "money",
+        "sent_at": "datetime",
+        "accepted_at": "datetime",
+        "declined_at": "datetime",
+        "archived_at": "datetime",
+        "pdf": "download"
+      },
+      "associations": {
+        "client": {
+          "type": "belongs_to",
+          "class_name": "Client",
+          "inline": false
+        },
+        "line_items": {
+          "type": "has_many",
+          "class_name": "EstimateLineItem",
+          "inline": true
+        }
+      }
+    },
+    "EstimateLineItem": {
+      "resource_name": "estimate_line_items",
+      "attributes": {
+        "id": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "description": "string",
+        "quantity": "decimal",
+        "unit_price": "money",
+        "amount": "money",
+        "tax_rate_override": "decimal",
+        "effective_tax_rate": "decimal"
+      },
+      "associations": {}
+    },
+    "Expense": {
+      "resource_name": "expenses",
+      "attributes": {
+        "id": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "client_id": "integer",
+        "project_id": "integer",
+        "expense_category_id": "integer",
+        "invoice_id": "integer",
+        "spent_on": "date",
+        "calculation_type": "string",
+        "quantity": "decimal",
+        "unit": "string",
+        "unit_rate": "money",
+        "total": "money",
+        "currency": "string",
+        "notes": "string",
+        "billable": "boolean",
+        "billed": "boolean",
+        "reimbursed": "boolean",
+        "archived_at": "datetime",
+        "receipt": "download"
+      },
+      "associations": {
+        "client": {
+          "type": "has_one",
+          "class_name": "Client",
+          "inline": false
+        },
+        "project": {
+          "type": "belongs_to",
+          "class_name": "Project",
+          "inline": false
+        },
+        "expense_category": {
+          "type": "belongs_to",
+          "class_name": "ExpenseCategory",
+          "inline": false
+        },
+        "invoice": {
+          "type": "belongs_to",
+          "class_name": "Invoice",
+          "inline": false
+        }
+      }
+    },
+    "ExpenseCategory": {
+      "resource_name": "expense_categories",
+      "attributes": {
+        "id": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "name": "string",
+        "archived_at": "datetime"
+      },
+      "associations": {}
+    },
+    "Invoice": {
+      "resource_name": "invoices",
+      "attributes": {
+        "id": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "client_id": "integer",
+        "source_estimate_id": "integer",
+        "number": "string",
+        "status": "string",
+        "issue_date": "date",
+        "due_date": "date",
+        "subject": "string",
+        "notes": "string",
+        "currency": "string",
+        "locale": "string",
+        "recipient_name": "string",
+        "recipient_address": "string",
+        "sender_name": "string",
+        "sender_address": "string",
+        "sender_email": "string",
+        "sender_phone": "string",
+        "sender_vat_number": "string",
+        "sender_iban": "string",
+        "payment_reference": "string",
+        "tax_rate": "decimal",
+        "discount_rate": "decimal",
+        "subtotal": "money",
+        "discount": "money",
+        "tax": "money",
+        "tax_breakdown": "array",
+        "total": "money",
+        "paid": "money",
+        "due": "money",
+        "sent_at": "datetime",
+        "paid_at": "datetime",
+        "voided_at": "datetime",
+        "void_reason": "string",
+        "archived_at": "datetime",
+        "recurring_invoice_template_id": "integer",
+        "recurring_occurrence_on": "date",
+        "pdf": "download"
+      },
+      "associations": {
+        "client": {
+          "type": "belongs_to",
+          "class_name": "Client",
+          "inline": false
+        },
+        "source_estimate": {
+          "type": "belongs_to",
+          "class_name": "Estimate",
+          "inline": false
+        },
+        "recurring_invoice_template": {
+          "type": "belongs_to",
+          "class_name": "RecurringInvoiceTemplate",
+          "inline": false
+        },
+        "line_items": {
+          "type": "has_many",
+          "class_name": "InvoiceLineItem",
+          "inline": true
+        },
+        "payments": {
+          "type": "has_many",
+          "class_name": "Payment",
+          "inline": true
+        }
+      }
+    },
+    "InvoiceLineItem": {
+      "resource_name": "invoice_line_items",
+      "attributes": {
+        "id": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "description": "string",
+        "quantity": "decimal",
+        "unit_price": "money",
+        "amount": "money",
+        "tax_rate_override": "decimal",
+        "effective_tax_rate": "decimal",
+        "project_id": "integer",
+        "source_kind": "string"
+      },
+      "associations": {
+        "project": {
+          "type": "belongs_to",
+          "class_name": "Project",
+          "inline": false
+        }
+      }
+    },
+    "Payment": {
+      "resource_name": "payments",
+      "attributes": {
+        "id": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "invoice_id": "integer",
+        "reversal_of_id": "integer",
+        "amount": "money",
+        "paid_on": "date",
+        "notes": "string"
+      },
+      "associations": {
+        "invoice": {
+          "type": "belongs_to",
+          "class_name": "Invoice",
+          "inline": false
+        },
+        "reversal_of": {
+          "type": "belongs_to",
+          "class_name": "Payment",
+          "inline": false
+        }
+      }
+    },
+    "Project": {
+      "resource_name": "projects",
+      "attributes": {
+        "id": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "client_id": "integer",
+        "name": "string",
+        "notes": "string",
+        "currency": "string",
+        "project_type": "string",
+        "starts_on": "date",
+        "ends_on": "date",
+        "archived_at": "datetime"
+      },
+      "associations": {
+        "client": {
+          "type": "belongs_to",
+          "class_name": "Client",
+          "inline": false
+        }
+      }
+    },
+    "RecurringInvoiceLineItem": {
+      "resource_name": "recurring_invoice_line_items",
+      "attributes": {
+        "id": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "description": "string",
+        "quantity": "decimal",
+        "unit_price": "money",
+        "amount": "money",
+        "tax_rate_override": "decimal",
+        "effective_tax_rate": "decimal"
+      },
+      "associations": {}
+    },
+    "RecurringInvoiceTemplate": {
+      "resource_name": "recurring_invoice_templates",
+      "attributes": {
+        "id": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "client_id": "integer",
+        "name": "string",
+        "currency": "string",
+        "locale": "string",
+        "subject": "string",
+        "notes": "string",
+        "discount_rate": "decimal",
+        "tax_rate": "decimal",
+        "interval_unit": "string",
+        "interval_count": "integer",
+        "starts_on": "date",
+        "next_issue_on": "date",
+        "ends_on": "date",
+        "due_days": "integer",
+        "paused_at": "datetime",
+        "archived_at": "datetime"
+      },
+      "associations": {
+        "client": {
+          "type": "belongs_to",
+          "class_name": "Client",
+          "inline": false
+        },
+        "line_items": {
+          "type": "has_many",
+          "class_name": "RecurringInvoiceLineItem",
+          "inline": true
+        }
+      }
+    },
+    "Task": {
+      "resource_name": "tasks",
+      "attributes": {
+        "id": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "name": "string",
+        "archived_at": "datetime"
+      },
+      "associations": {}
+    },
+    "TimeEntry": {
+      "resource_name": "time_entries",
+      "attributes": {
+        "id": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "client_id": "integer",
+        "project_id": "integer",
+        "task_id": "integer",
+        "invoice_id": "integer",
+        "spent_on": "date",
+        "duration_seconds": "integer",
+        "notes": "string",
+        "billable": "boolean",
+        "billed": "boolean",
+        "billable_rate": "money",
+        "cost_rate": "money"
+      },
+      "associations": {
+        "client": {
+          "type": "has_one",
+          "class_name": "Client",
+          "inline": false
+        },
+        "project": {
+          "type": "belongs_to",
+          "class_name": "Project",
+          "inline": false
+        },
+        "task": {
+          "type": "belongs_to",
+          "class_name": "Task",
+          "inline": false
+        },
+        "invoice": {
+          "type": "belongs_to",
+          "class_name": "Invoice",
+          "inline": false
+        }
+      }
+    }
+  },
+  "endpoints": {
+    "clients": [
+      {
+        "action": "index",
+        "verb": "GET",
+        "path": "/2026-07-14/clients"
+      },
+      {
+        "action": "show",
+        "verb": "GET",
+        "path": "/2026-07-14/clients/:id"
+      }
+    ],
+    "contacts": [
+      {
+        "action": "index",
+        "verb": "GET",
+        "path": "/2026-07-14/contacts"
+      },
+      {
+        "action": "show",
+        "verb": "GET",
+        "path": "/2026-07-14/contacts/:id"
+      }
+    ],
+    "estimates": [
+      {
+        "action": "pdf",
+        "verb": "GET",
+        "path": "/2026-07-14/estimates/:id/pdf"
+      },
+      {
+        "action": "index",
+        "verb": "GET",
+        "path": "/2026-07-14/estimates"
+      },
+      {
+        "action": "show",
+        "verb": "GET",
+        "path": "/2026-07-14/estimates/:id"
+      }
+    ],
+    "expense_categories": [
+      {
+        "action": "index",
+        "verb": "GET",
+        "path": "/2026-07-14/expense_categories"
+      },
+      {
+        "action": "show",
+        "verb": "GET",
+        "path": "/2026-07-14/expense_categories/:id"
+      }
+    ],
+    "expenses": [
+      {
+        "action": "receipt",
+        "verb": "GET",
+        "path": "/2026-07-14/expenses/:id/receipt"
+      },
+      {
+        "action": "index",
+        "verb": "GET",
+        "path": "/2026-07-14/expenses"
+      },
+      {
+        "action": "show",
+        "verb": "GET",
+        "path": "/2026-07-14/expenses/:id"
+      }
+    ],
+    "invoices": [
+      {
+        "action": "pdf",
+        "verb": "GET",
+        "path": "/2026-07-14/invoices/:id/pdf"
+      },
+      {
+        "action": "index",
+        "verb": "GET",
+        "path": "/2026-07-14/invoices"
+      },
+      {
+        "action": "show",
+        "verb": "GET",
+        "path": "/2026-07-14/invoices/:id"
+      }
+    ],
+    "payments": [
+      {
+        "action": "index",
+        "verb": "GET",
+        "path": "/2026-07-14/payments"
+      },
+      {
+        "action": "show",
+        "verb": "GET",
+        "path": "/2026-07-14/payments/:id"
+      }
+    ],
+    "projects": [
+      {
+        "action": "index",
+        "verb": "GET",
+        "path": "/2026-07-14/projects"
+      },
+      {
+        "action": "show",
+        "verb": "GET",
+        "path": "/2026-07-14/projects/:id"
+      }
+    ],
+    "recurring_invoice_templates": [
+      {
+        "action": "index",
+        "verb": "GET",
+        "path": "/2026-07-14/recurring_invoice_templates"
+      },
+      {
+        "action": "show",
+        "verb": "GET",
+        "path": "/2026-07-14/recurring_invoice_templates/:id"
+      }
+    ],
+    "schema": [
+      {
+        "action": "show",
+        "verb": "GET",
+        "path": "/2026-07-14/schema"
+      }
+    ],
+    "tasks": [
+      {
+        "action": "index",
+        "verb": "GET",
+        "path": "/2026-07-14/tasks"
+      },
+      {
+        "action": "show",
+        "verb": "GET",
+        "path": "/2026-07-14/tasks/:id"
+      }
+    ],
+    "time_entries": [
+      {
+        "action": "index",
+        "verb": "GET",
+        "path": "/2026-07-14/time_entries"
+      },
+      {
+        "action": "show",
+        "verb": "GET",
+        "path": "/2026-07-14/time_entries/:id"
+      }
+    ]
+  }
+}
