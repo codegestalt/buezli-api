@@ -37,6 +37,17 @@ class Buezli::Api::ClientTest < ActiveSupport::TestCase
     assert_raises(NoMethodError) { event.typo }
   end
 
+  test "schema client associations are not shadowed by the API client" do
+    api_client = Buezli::Api::Client.new(access_token: "secret")
+    time_entry = api_client.build_record("TimeEntry", {
+      id: 12,
+      client: { id: 7, name: "Example AG" }
+    })
+
+    assert_equal "Example AG", time_entry.client.name
+    assert_same api_client, time_entry.api_client
+  end
+
   test "represents delta tombstones as deleted records" do
     client = Buezli::Api::Client.new(access_token: "secret", endpoint: "https://api.test", schema: example_schema)
     tombstone = client.build_record("Event", {

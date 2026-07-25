@@ -49,7 +49,10 @@ client = Buezli::Api::Client.new(
 Schema-declared dates and timestamps become `Date` and `Time`. Decimal values
 remain strings and money remains a `cents`/`currency` hash, avoiding precision
 loss. Unknown record methods raise `NoMethodError`; declared but absent fields
-return `nil`.
+return `nil`. Schema fields take precedence over client implementation details,
+so an expanded `client` association is available as `record.client`. The
+transport client used to build nested records is available separately as
+`record.api_client`.
 
 ## Pagination and deltas
 

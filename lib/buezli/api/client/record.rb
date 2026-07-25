@@ -2,13 +2,14 @@ module Buezli
   module Api
     class Client
       class Record
-        attr_reader :raw_attributes, :model_name, :client, :schema
+        attr_reader :raw_attributes, :model_name, :api_client, :schema
 
-        def initialize(attributes:, model_name:, client:, schema:)
+        def initialize(attributes:, model_name:, schema:, api_client: nil, client: nil)
           @raw_attributes = (attributes || {}).with_indifferent_access
           @model_name = model_name
-          @client = client
+          @api_client = api_client || client
           @schema = schema
+          raise ArgumentError, "api_client is required" unless @api_client
         end
 
         def id
@@ -55,9 +56,9 @@ module Buezli
 
           target_model = schema.association_class_name(model_name, name)
           if schema.association_collection?(model_name, name)
-            Array(value).map { |attributes| client.build_record(target_model, attributes) }
+            Array(value).map { |attributes| api_client.build_record(target_model, attributes) }
           else
-            client.build_record(target_model, value)
+            api_client.build_record(target_model, value)
           end
         end
 

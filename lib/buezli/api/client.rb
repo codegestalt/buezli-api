@@ -17,7 +17,7 @@ module Buezli
       end
 
       def build_record(model_name, attributes)
-        Record.new(attributes:, model_name:, client: self, schema:)
+        Record.new(attributes:, model_name:, api_client: self, schema:)
       end
 
       def inspect
