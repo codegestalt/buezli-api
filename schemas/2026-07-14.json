@@ -121,7 +121,6 @@
         "billable": "boolean",
         "billed": "boolean",
         "reimbursed": "boolean",
-        "archived_at": "datetime",
         "receipt": "download"
       },
       "associations": {
