@@ -1,6 +1,16 @@
 {
   "version": "2026-07-14",
   "models": {
+    "Account": {
+      "resource_name": "account",
+      "attributes": {
+        "id": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "name": "string"
+      },
+      "associations": {}
+    },
     "Client": {
       "resource_name": "clients",
       "attributes": {
@@ -404,6 +414,13 @@
     }
   },
   "endpoints": {
+    "account": [
+      {
+        "action": "show",
+        "verb": "GET",
+        "path": "/2026-07-14/account"
+      }
+    ],
     "clients": [
       {
         "action": "index",
