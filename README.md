@@ -34,6 +34,10 @@ invoice.updated_at       # Time
 invoice.total            # { "cents" => 10810, "currency" => "CHF" }
 invoice.client.name
 invoice.line_items.first.description
+
+account = client.retrieve_account  # the account the token reads
+account.id
+account.name
 ```
 
 The default endpoint is `https://api.buezli.app`, and the newest bundled

@@ -227,7 +227,8 @@ class Buezli::Api::ClientTest < ActiveSupport::TestCase
 
     assert_equal "2026-07-14", client.version
     assert_equal "2026-07-14", client.schema.version
-    assert_equal 26, client.singleton_methods.grep(/\Aretrieve_/).size
+    assert_equal 27, client.singleton_methods.grep(/\Aretrieve_/).size
+    assert_respond_to client, :retrieve_account
     assert_respond_to client, :retrieve_invoices
     assert_respond_to client, :retrieve_invoice
     assert_respond_to client, :retrieve_invoice_pdf
@@ -238,6 +239,24 @@ class Buezli::Api::ClientTest < ActiveSupport::TestCase
     assert_not_respond_to client, :retrieve_recurring_invoice_line_items
     assert_not client.schema.for("Invoice").key?("description")
     assert_not client.schema.for("Invoice").key?("attribute_descriptions")
+  end
+
+  test "reads the account the token belongs to" do
+    server = LocalApiServer.new(json_response({
+      data: { id: 42, created_at: "2026-07-01T08:00:00Z", updated_at: "2026-07-14T10:00:00Z", name: "Example Studio AG" }
+    }))
+    client = Buezli::Api::Client.new(access_token: "secret", endpoint: server.endpoint)
+
+    account = client.retrieve_account
+    server.finish
+    request = server.requests.first
+
+    assert_instance_of Buezli::Api::Client::Record, account
+    assert_equal [ 42, "Example Studio AG", Time.utc(2026, 7, 14, 10) ], [ account.id, account.name, account.updated_at ]
+    assert_equal "/2026-07-14/account", request.path
+    assert_equal "Bearer secret", request.headers.fetch("authorization")
+  ensure
+    server&.close
   end
 
   test "uses the published schema for invoice aggregates" do
@@ -274,7 +293,7 @@ class Buezli::Api::ClientTest < ActiveSupport::TestCase
 
     assert_equal "2026-07-14", schema.fetch("version")
     assert_equal %w[associations attributes resource_name], schema.dig("models", "Invoice").keys.sort
-    assert_equal 26, schema.fetch("endpoints").values.sum(&:size)
+    assert_equal 27, schema.fetch("endpoints").values.sum(&:size)
   end
 
   test "returns a live schema without replacing the client's bundled schema" do
