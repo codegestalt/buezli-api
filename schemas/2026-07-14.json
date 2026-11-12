@@ -309,6 +309,9 @@
         "notes": "string",
         "currency": "string",
         "project_type": "string",
+        "rate_source": "string",
+        "hourly_rate": "money",
+        "fee": "money",
         "starts_on": "date",
         "ends_on": "date",
         "archived_at": "datetime"
@@ -323,6 +326,30 @@
           "type": "has_many",
           "class_name": "ProjectTask",
           "inline": true
+        },
+        "project_assignments": {
+          "type": "has_many",
+          "class_name": "ProjectAssignment",
+          "inline": true
+        }
+      }
+    },
+    "ProjectAssignment": {
+      "resource_name": "project_assignments",
+      "attributes": {
+        "id": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "membership_id": "integer",
+        "project_manager": "boolean",
+        "hourly_rate": "money",
+        "archived_at": "datetime"
+      },
+      "associations": {
+        "membership": {
+          "type": "belongs_to",
+          "class_name": "Membership",
+          "inline": false
         }
       }
     },
@@ -333,6 +360,8 @@
         "created_at": "datetime",
         "updated_at": "datetime",
         "task_id": "integer",
+        "billable": "boolean",
+        "hourly_rate": "money",
         "archived_at": "datetime"
       },
       "associations": {
@@ -481,8 +510,43 @@
         "path": "/2026-07-14/clients"
       },
       {
+        "action": "create",
+        "verb": "POST",
+        "path": "/2026-07-14/clients",
+        "params": {
+          "required": [
+            "name"
+          ],
+          "optional": [
+            "address",
+            "currency",
+            "locale"
+          ]
+        }
+      },
+      {
         "action": "show",
         "verb": "GET",
+        "path": "/2026-07-14/clients/:id"
+      },
+      {
+        "action": "update",
+        "verb": "PATCH",
+        "path": "/2026-07-14/clients/:id",
+        "params": {
+          "required": [],
+          "optional": [
+            "name",
+            "address",
+            "currency",
+            "locale",
+            "archived"
+          ]
+        }
+      },
+      {
+        "action": "destroy",
+        "verb": "DELETE",
         "path": "/2026-07-14/clients/:id"
       }
     ],
@@ -493,8 +557,48 @@
         "path": "/2026-07-14/contacts"
       },
       {
+        "action": "create",
+        "verb": "POST",
+        "path": "/2026-07-14/contacts",
+        "params": {
+          "required": [
+            "client_id"
+          ],
+          "optional": [
+            "title",
+            "first_name",
+            "last_name",
+            "email",
+            "phone_office",
+            "phone_mobile"
+          ]
+        }
+      },
+      {
         "action": "show",
         "verb": "GET",
+        "path": "/2026-07-14/contacts/:id"
+      },
+      {
+        "action": "update",
+        "verb": "PATCH",
+        "path": "/2026-07-14/contacts/:id",
+        "params": {
+          "required": [],
+          "optional": [
+            "title",
+            "first_name",
+            "last_name",
+            "email",
+            "phone_office",
+            "phone_mobile",
+            "archived"
+          ]
+        }
+      },
+      {
+        "action": "destroy",
+        "verb": "DELETE",
         "path": "/2026-07-14/contacts/:id"
       }
     ],
@@ -510,8 +614,53 @@
         "path": "/2026-07-14/estimates"
       },
       {
+        "action": "create",
+        "verb": "POST",
+        "path": "/2026-07-14/estimates",
+        "params": {
+          "required": [
+            "client_id"
+          ],
+          "optional": [
+            "issue_date",
+            "subject",
+            "notes",
+            "currency",
+            "locale",
+            "tax_rate",
+            "discount_rate",
+            "line_items"
+          ]
+        }
+      },
+      {
         "action": "show",
         "verb": "GET",
+        "path": "/2026-07-14/estimates/:id"
+      },
+      {
+        "action": "update",
+        "verb": "PATCH",
+        "path": "/2026-07-14/estimates/:id",
+        "params": {
+          "required": [],
+          "optional": [
+            "decision",
+            "client_id",
+            "issue_date",
+            "subject",
+            "notes",
+            "currency",
+            "locale",
+            "tax_rate",
+            "discount_rate",
+            "line_items"
+          ]
+        }
+      },
+      {
+        "action": "destroy",
+        "verb": "DELETE",
         "path": "/2026-07-14/estimates/:id"
       }
     ],
@@ -556,8 +705,54 @@
         "path": "/2026-07-14/invoices"
       },
       {
+        "action": "create",
+        "verb": "POST",
+        "path": "/2026-07-14/invoices",
+        "params": {
+          "required": [],
+          "optional": [
+            "source_estimate_id",
+            "due_date",
+            "client_id",
+            "issue_date",
+            "subject",
+            "notes",
+            "currency",
+            "locale",
+            "tax_rate",
+            "discount_rate",
+            "line_items"
+          ]
+        }
+      },
+      {
         "action": "show",
         "verb": "GET",
+        "path": "/2026-07-14/invoices/:id"
+      },
+      {
+        "action": "update",
+        "verb": "PATCH",
+        "path": "/2026-07-14/invoices/:id",
+        "params": {
+          "required": [],
+          "optional": [
+            "due_date",
+            "client_id",
+            "issue_date",
+            "subject",
+            "notes",
+            "currency",
+            "locale",
+            "tax_rate",
+            "discount_rate",
+            "line_items"
+          ]
+        }
+      },
+      {
+        "action": "destroy",
+        "verb": "DELETE",
         "path": "/2026-07-14/invoices/:id"
       }
     ],
@@ -592,8 +787,61 @@
         "path": "/2026-07-14/projects"
       },
       {
+        "action": "create",
+        "verb": "POST",
+        "path": "/2026-07-14/projects",
+        "params": {
+          "required": [
+            "name",
+            "client_id"
+          ],
+          "optional": [
+            "notes",
+            "starts_on",
+            "ends_on",
+            "project_type",
+            "currency",
+            "rate_source",
+            "apply_to_uninvoiced_time",
+            "hourly_rate",
+            "fee",
+            "project_tasks",
+            "project_assignments"
+          ]
+        }
+      },
+      {
         "action": "show",
         "verb": "GET",
+        "path": "/2026-07-14/projects/:id"
+      },
+      {
+        "action": "update",
+        "verb": "PATCH",
+        "path": "/2026-07-14/projects/:id",
+        "params": {
+          "required": [],
+          "optional": [
+            "name",
+            "client_id",
+            "archived",
+            "notes",
+            "starts_on",
+            "ends_on",
+            "project_type",
+            "currency",
+            "rate_source",
+            "apply_to_uninvoiced_time",
+            "hourly_rate",
+            "fee",
+            "project_tasks",
+            "project_assignments"
+          ]
+        }
+      },
+      {
+        "action": "destroy",
+        "verb": "DELETE",
         "path": "/2026-07-14/projects/:id"
       }
     ],
@@ -623,8 +871,36 @@
         "path": "/2026-07-14/tasks"
       },
       {
+        "action": "create",
+        "verb": "POST",
+        "path": "/2026-07-14/tasks",
+        "params": {
+          "required": [
+            "name"
+          ],
+          "optional": []
+        }
+      },
+      {
         "action": "show",
         "verb": "GET",
+        "path": "/2026-07-14/tasks/:id"
+      },
+      {
+        "action": "update",
+        "verb": "PATCH",
+        "path": "/2026-07-14/tasks/:id",
+        "params": {
+          "required": [],
+          "optional": [
+            "name",
+            "archived"
+          ]
+        }
+      },
+      {
+        "action": "destroy",
+        "verb": "DELETE",
         "path": "/2026-07-14/tasks/:id"
       }
     ],
@@ -712,6 +988,11 @@
             "notes"
           ]
         }
+      },
+      {
+        "action": "destroy",
+        "verb": "DELETE",
+        "path": "/2026-07-14/time_entries/:id"
       }
     ]
   }
