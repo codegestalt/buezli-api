@@ -543,6 +543,11 @@
             "archived"
           ]
         }
+      },
+      {
+        "action": "destroy",
+        "verb": "DELETE",
+        "path": "/2026-07-14/clients/:id"
       }
     ],
     "contacts": [
@@ -590,6 +595,11 @@
             "archived"
           ]
         }
+      },
+      {
+        "action": "destroy",
+        "verb": "DELETE",
+        "path": "/2026-07-14/contacts/:id"
       }
     ],
     "estimates": [
@@ -651,11 +661,7 @@
       {
         "action": "destroy",
         "verb": "DELETE",
-        "path": "/2026-07-14/estimates/:id",
-        "params": {
-          "required": [],
-          "optional": []
-        }
+        "path": "/2026-07-14/estimates/:id"
       }
     ],
     "expense_categories": [
@@ -747,11 +753,7 @@
       {
         "action": "destroy",
         "verb": "DELETE",
-        "path": "/2026-07-14/invoices/:id",
-        "params": {
-          "required": [],
-          "optional": []
-        }
+        "path": "/2026-07-14/invoices/:id"
       }
     ],
     "memberships": [
@@ -840,11 +842,7 @@
       {
         "action": "destroy",
         "verb": "DELETE",
-        "path": "/2026-07-14/projects/:id",
-        "params": {
-          "required": [],
-          "optional": []
-        }
+        "path": "/2026-07-14/projects/:id"
       }
     ],
     "recurring_invoice_templates": [
@@ -903,11 +901,7 @@
       {
         "action": "destroy",
         "verb": "DELETE",
-        "path": "/2026-07-14/tasks/:id",
-        "params": {
-          "required": [],
-          "optional": []
-        }
+        "path": "/2026-07-14/tasks/:id"
       }
     ],
     "time_entries": [
@@ -994,6 +988,11 @@
             "notes"
           ]
         }
+      },
+      {
+        "action": "destroy",
+        "verb": "DELETE",
+        "path": "/2026-07-14/time_entries/:id"
       }
     ]
   }
