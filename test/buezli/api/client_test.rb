@@ -230,6 +230,8 @@ class Buezli::Api::ClientTest < ActiveSupport::TestCase
     assert_equal 29, client.singleton_methods.grep(/\Aretrieve_/).size
     assert_respond_to client, :retrieve_account
     assert_respond_to client, :retrieve_memberships
+    assert_not_respond_to client, :retrieve_time_entry_start
+    assert_not_respond_to client, :retrieve_time_entry_create
     assert_respond_to client, :retrieve_invoices
     assert_respond_to client, :retrieve_invoice
     assert_respond_to client, :retrieve_invoice_pdf
@@ -294,7 +296,7 @@ class Buezli::Api::ClientTest < ActiveSupport::TestCase
 
     assert_equal "2026-07-14", schema.fetch("version")
     assert_equal %w[associations attributes resource_name], schema.dig("models", "Invoice").keys.sort
-    assert_equal 29, schema.fetch("endpoints").values.sum(&:size)
+    assert_equal 34, schema.fetch("endpoints").values.sum(&:size)
     assert_equal "string", schema.dig("models", "TimeEntry", "attributes", "status")
   end
 

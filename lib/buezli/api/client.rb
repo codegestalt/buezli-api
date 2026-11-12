@@ -42,7 +42,8 @@ module Buezli
 
       def define_methods_from_schema
         schema.endpoints.each do |resource, endpoints|
-          endpoints.each do |endpoint_config|
+          # The client reads; write endpoints have no generated methods.
+          endpoints.select { |endpoint_config| endpoint_config.fetch("verb") == "GET" }.each do |endpoint_config|
             define_singleton_method(method_name_for(resource, endpoint_config.fetch("action"))) do |*path_values, **params|
               perform_endpoint(resource, endpoint_config, path_values, params)
             end
