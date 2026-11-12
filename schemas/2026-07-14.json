@@ -403,6 +403,8 @@
         "tax_rate": "decimal",
         "interval_unit": "string",
         "interval_count": "integer",
+        "anchor_day": "integer",
+        "end_of_month": "boolean",
         "starts_on": "date",
         "next_issue_on": "date",
         "ends_on": "date",
@@ -609,6 +611,21 @@
         "path": "/2026-07-14/estimates/:id/pdf"
       },
       {
+        "action": "deliver",
+        "verb": "POST",
+        "path": "/2026-07-14/estimates/:id/deliver",
+        "params": {
+          "required": [],
+          "optional": [
+            "contact_id",
+            "subject",
+            "body",
+            "attach_pdf"
+          ],
+          "sensitive": true
+        }
+      },
+      {
         "action": "index",
         "verb": "GET",
         "path": "/2026-07-14/estimates"
@@ -654,7 +671,11 @@
             "locale",
             "tax_rate",
             "discount_rate",
-            "line_items"
+            "line_items",
+            "sent_on"
+          ],
+          "sensitive": [
+            "sent_on"
           ]
         }
       },
@@ -698,6 +719,21 @@
         "action": "pdf",
         "verb": "GET",
         "path": "/2026-07-14/invoices/:id/pdf"
+      },
+      {
+        "action": "deliver",
+        "verb": "POST",
+        "path": "/2026-07-14/invoices/:id/deliver",
+        "params": {
+          "required": [],
+          "optional": [
+            "contact_id",
+            "subject",
+            "body",
+            "attach_pdf"
+          ],
+          "sensitive": true
+        }
       },
       {
         "action": "index",
@@ -746,7 +782,15 @@
             "locale",
             "tax_rate",
             "discount_rate",
-            "line_items"
+            "line_items",
+            "sent_on",
+            "void_reason",
+            "voided_on"
+          ],
+          "sensitive": [
+            "sent_on",
+            "void_reason",
+            "voided_on"
           ]
         }
       },
@@ -773,6 +817,22 @@
         "action": "index",
         "verb": "GET",
         "path": "/2026-07-14/payments"
+      },
+      {
+        "action": "create",
+        "verb": "POST",
+        "path": "/2026-07-14/payments",
+        "params": {
+          "required": [],
+          "optional": [
+            "invoice_id",
+            "amount",
+            "paid_on",
+            "notes",
+            "reversal_of_id"
+          ],
+          "sensitive": true
+        }
       },
       {
         "action": "show",
@@ -852,9 +912,65 @@
         "path": "/2026-07-14/recurring_invoice_templates"
       },
       {
+        "action": "create",
+        "verb": "POST",
+        "path": "/2026-07-14/recurring_invoice_templates",
+        "params": {
+          "required": [
+            "client_id"
+          ],
+          "optional": [
+            "name",
+            "currency",
+            "locale",
+            "subject",
+            "notes",
+            "discount_rate",
+            "tax_rate",
+            "interval_unit",
+            "interval_count",
+            "anchor_day",
+            "end_of_month",
+            "next_issue_on",
+            "ends_on",
+            "due_days",
+            "paused",
+            "line_items"
+          ]
+        }
+      },
+      {
         "action": "show",
         "verb": "GET",
         "path": "/2026-07-14/recurring_invoice_templates/:id"
+      },
+      {
+        "action": "update",
+        "verb": "PATCH",
+        "path": "/2026-07-14/recurring_invoice_templates/:id",
+        "params": {
+          "required": [],
+          "optional": [
+            "client_id",
+            "name",
+            "currency",
+            "locale",
+            "subject",
+            "notes",
+            "discount_rate",
+            "tax_rate",
+            "interval_unit",
+            "interval_count",
+            "anchor_day",
+            "end_of_month",
+            "next_issue_on",
+            "ends_on",
+            "due_days",
+            "paused",
+            "line_items",
+            "archived"
+          ]
+        }
       }
     ],
     "schema": [
