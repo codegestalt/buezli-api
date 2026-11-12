@@ -296,7 +296,7 @@ class Buezli::Api::ClientTest < ActiveSupport::TestCase
 
     assert_equal "2026-07-14", schema.fetch("version")
     assert_equal %w[associations attributes resource_name], schema.dig("models", "Invoice").keys.sort
-    assert_equal 55, schema.fetch("endpoints").values.sum(&:size)
+    assert_equal 50, schema.fetch("endpoints").values.sum(&:size)
     assert_equal "string", schema.dig("models", "TimeEntry", "attributes", "status")
   end
 

@@ -599,42 +599,6 @@
         "path": "/2026-07-14/estimates/:id/pdf"
       },
       {
-        "action": "convert",
-        "verb": "POST",
-        "path": "/2026-07-14/estimates/:id/convert",
-        "params": {
-          "required": [],
-          "optional": []
-        }
-      },
-      {
-        "action": "accept",
-        "verb": "POST",
-        "path": "/2026-07-14/estimates/:id/accept",
-        "params": {
-          "required": [],
-          "optional": []
-        }
-      },
-      {
-        "action": "decline",
-        "verb": "POST",
-        "path": "/2026-07-14/estimates/:id/decline",
-        "params": {
-          "required": [],
-          "optional": []
-        }
-      },
-      {
-        "action": "reopen",
-        "verb": "POST",
-        "path": "/2026-07-14/estimates/:id/reopen",
-        "params": {
-          "required": [],
-          "optional": []
-        }
-      },
-      {
         "action": "index",
         "verb": "GET",
         "path": "/2026-07-14/estimates"
@@ -671,6 +635,7 @@
         "params": {
           "required": [],
           "optional": [
+            "decision",
             "client_id",
             "issue_date",
             "subject",
@@ -729,19 +694,6 @@
         "path": "/2026-07-14/invoices/:id/pdf"
       },
       {
-        "action": "from_uninvoiced_work",
-        "verb": "POST",
-        "path": "/2026-07-14/invoices/from_uninvoiced_work",
-        "params": {
-          "required": [],
-          "optional": [
-            "mode",
-            "time_entry_ids",
-            "expense_ids"
-          ]
-        }
-      },
-      {
         "action": "index",
         "verb": "GET",
         "path": "/2026-07-14/invoices"
@@ -751,11 +703,11 @@
         "verb": "POST",
         "path": "/2026-07-14/invoices",
         "params": {
-          "required": [
-            "client_id"
-          ],
+          "required": [],
           "optional": [
+            "source_estimate_id",
             "due_date",
+            "client_id",
             "issue_date",
             "subject",
             "notes",
