@@ -630,14 +630,88 @@
     ],
     "time_entries": [
       {
+        "action": "start",
+        "verb": "POST",
+        "path": "/2026-07-14/time_entries/start",
+        "params": {
+          "required": [
+            "tracking_key",
+            "project_id",
+            "task_id",
+            "started_at"
+          ],
+          "optional": [
+            "notes"
+          ]
+        }
+      },
+      {
+        "action": "checkpoint",
+        "verb": "POST",
+        "path": "/2026-07-14/time_entries/checkpoint",
+        "params": {
+          "required": [
+            "tracking_key",
+            "checkpointed_at"
+          ],
+          "optional": [
+            "notes"
+          ]
+        }
+      },
+      {
+        "action": "finish",
+        "verb": "POST",
+        "path": "/2026-07-14/time_entries/finish",
+        "params": {
+          "required": [
+            "tracking_key",
+            "ended_at"
+          ],
+          "optional": [
+            "notes"
+          ]
+        }
+      },
+      {
         "action": "index",
         "verb": "GET",
         "path": "/2026-07-14/time_entries"
       },
       {
+        "action": "create",
+        "verb": "POST",
+        "path": "/2026-07-14/time_entries",
+        "params": {
+          "required": [
+            "project_id",
+            "task_id",
+            "spent_on",
+            "duration_seconds"
+          ],
+          "optional": [
+            "notes"
+          ]
+        }
+      },
+      {
         "action": "show",
         "verb": "GET",
         "path": "/2026-07-14/time_entries/:id"
+      },
+      {
+        "action": "update",
+        "verb": "PATCH",
+        "path": "/2026-07-14/time_entries/:id",
+        "params": {
+          "required": [],
+          "optional": [
+            "project_id",
+            "task_id",
+            "duration_seconds",
+            "notes"
+          ]
+        }
       }
     ]
   }
