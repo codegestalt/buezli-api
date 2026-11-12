@@ -261,6 +261,18 @@
         }
       }
     },
+    "Membership": {
+      "resource_name": "memberships",
+      "attributes": {
+        "id": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "name": "string",
+        "role": "string",
+        "archived_at": "datetime"
+      },
+      "associations": {}
+    },
     "Payment": {
       "resource_name": "payments",
       "attributes": {
@@ -305,6 +317,28 @@
         "client": {
           "type": "belongs_to",
           "class_name": "Client",
+          "inline": false
+        },
+        "project_tasks": {
+          "type": "has_many",
+          "class_name": "ProjectTask",
+          "inline": true
+        }
+      }
+    },
+    "ProjectTask": {
+      "resource_name": "project_tasks",
+      "attributes": {
+        "id": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "task_id": "integer",
+        "archived_at": "datetime"
+      },
+      "associations": {
+        "task": {
+          "type": "belongs_to",
+          "class_name": "Task",
           "inline": false
         }
       }
@@ -380,6 +414,7 @@
         "client_id": "integer",
         "project_id": "integer",
         "task_id": "integer",
+        "membership_id": "integer",
         "invoice_id": "integer",
         "spent_on": "date",
         "duration_seconds": "integer",
@@ -387,7 +422,15 @@
         "billable": "boolean",
         "billed": "boolean",
         "billable_rate": "money",
-        "cost_rate": "money"
+        "cost_rate": "money",
+        "status": "string",
+        "tracking_key": "string",
+        "started_at": "datetime",
+        "ended_at": "datetime",
+        "last_heartbeat_at": "datetime",
+        "elapsed_duration_seconds": "integer",
+        "agent_harness_id": "integer",
+        "tracking_source": "string"
       },
       "associations": {
         "client": {
@@ -405,9 +448,19 @@
           "class_name": "Task",
           "inline": false
         },
+        "membership": {
+          "type": "belongs_to",
+          "class_name": "Membership",
+          "inline": false
+        },
         "invoice": {
           "type": "belongs_to",
           "class_name": "Invoice",
+          "inline": false
+        },
+        "agent_harness": {
+          "type": "belongs_to",
+          "class_name": "AgentHarness",
           "inline": false
         }
       }
@@ -506,6 +559,18 @@
         "action": "show",
         "verb": "GET",
         "path": "/2026-07-14/invoices/:id"
+      }
+    ],
+    "memberships": [
+      {
+        "action": "index",
+        "verb": "GET",
+        "path": "/2026-07-14/memberships"
+      },
+      {
+        "action": "show",
+        "verb": "GET",
+        "path": "/2026-07-14/memberships/:id"
       }
     ],
     "payments": [

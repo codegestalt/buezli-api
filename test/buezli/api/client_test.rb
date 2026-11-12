@@ -227,8 +227,9 @@ class Buezli::Api::ClientTest < ActiveSupport::TestCase
 
     assert_equal "2026-07-14", client.version
     assert_equal "2026-07-14", client.schema.version
-    assert_equal 27, client.singleton_methods.grep(/\Aretrieve_/).size
+    assert_equal 29, client.singleton_methods.grep(/\Aretrieve_/).size
     assert_respond_to client, :retrieve_account
+    assert_respond_to client, :retrieve_memberships
     assert_respond_to client, :retrieve_invoices
     assert_respond_to client, :retrieve_invoice
     assert_respond_to client, :retrieve_invoice_pdf
@@ -293,7 +294,8 @@ class Buezli::Api::ClientTest < ActiveSupport::TestCase
 
     assert_equal "2026-07-14", schema.fetch("version")
     assert_equal %w[associations attributes resource_name], schema.dig("models", "Invoice").keys.sort
-    assert_equal 27, schema.fetch("endpoints").values.sum(&:size)
+    assert_equal 29, schema.fetch("endpoints").values.sum(&:size)
+    assert_equal "string", schema.dig("models", "TimeEntry", "attributes", "status")
   end
 
   test "returns a live schema without replacing the client's bundled schema" do
