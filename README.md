@@ -1,6 +1,6 @@
 # buezli-api
 
-The official schema-driven Ruby client for the read-only
+The official schema-driven, read-only Ruby client for the
 [Buezli API](https://buezli.app/api). Buezli is straightforward invoicing,
 time tracking, and project management for small service teams. Learn more at
 [buezli.app](https://buezli.app).
@@ -77,6 +77,23 @@ end
 invoices.pagination
 next_page = invoices.next_page
 previous_page = next_page&.previous_page
+```
+
+Collections include archived records (with `archived_at`), voided invoices
+and running time entries (with `status`); `archived: false` narrows a resource
+that can be archived. A tombstone means only that the record was deleted.
+Buezli reports deletions for 90 days. An older `updated_since` raises an error
+with the code `FULL_SYNC_REQUIRED`: list the resource again without it and
+treat records you no longer receive as deleted.
+
+```ruby
+begin
+  changes = client.retrieve_projects(updated_since: last_synced_at)
+rescue Buezli::Api::Client::Error => error
+  raise unless error.code == "FULL_SYNC_REQUIRED"
+
+  full_sync(client.retrieve_projects)
+end
 ```
 
 ## Downloads
