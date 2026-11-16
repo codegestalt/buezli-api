@@ -757,7 +757,10 @@
             "locale",
             "tax_rate",
             "discount_rate",
-            "line_items"
+            "line_items",
+            "line_grouping",
+            "time_entry_ids",
+            "expense_ids"
           ]
         }
       },
