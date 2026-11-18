@@ -202,7 +202,7 @@
         "paid": "money",
         "due": "money",
         "sent_at": "datetime",
-        "paid_at": "datetime",
+        "paid_on": "date",
         "voided_at": "datetime",
         "void_reason": "string",
         "archived_at": "datetime",
