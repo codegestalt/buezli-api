@@ -748,6 +748,7 @@
           "required": [],
           "optional": [
             "source_estimate_id",
+            "number",
             "due_date",
             "client_id",
             "issue_date",
@@ -776,6 +777,7 @@
         "params": {
           "required": [],
           "optional": [
+            "number",
             "due_date",
             "client_id",
             "issue_date",
